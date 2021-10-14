@@ -300,18 +300,18 @@ jobs:
         path: ~/go/pkg/mod
         key: ${{ runner.os }}-go-pkg-mod-${{ hashFiles('go.sum') }}
     - run: cd tools && go install github.com/bflad/tfproviderdocs
-    # - uses: actions/cache@v2
-    #   timeout-minutes: 2
-    #   with:
-    #     path: terraform-providers-schema
-    #     key: ${{ runner.os }}-terraform-providers-schema-${{ hashFiles('go.sum') }}-${{ hashFiles('internal/**') }}
-    # - name: tfproviderdocs check
-    #   run: |
-    #     tfproviderdocs check \
-    #       -allowed-resource-subcategories-file website/allowed-subcategories.txt \
-    #       -enable-contents-check \
-    #       -ignore-file-missing-data-sources aws_alb,aws_alb_listener,aws_alb_target_group \
-    #       -ignore-file-missing-resources aws_alb,aws_alb_listener,aws_alb_listener_certificate,aws_alb_listener_rule,aws_alb_target_group,aws_alb_target_group_attachment \
-    #       -provider-source registry.terraform.io/hashicorp/aws \
-    #       -providers-schema-json terraform-providers-schema/schema.json \
-    #       -require-resource-subcategory
+    - uses: actions/cache@v2
+      timeout-minutes: 2
+      with:
+        path: terraform-providers-schema
+        key: ${{ runner.os }}-terraform-providers-schema-${{ hashFiles('go.sum') }}-${{ hashFiles('internal/**') }}
+    - name: tfproviderdocs check
+      run: |
+        tfproviderdocs check \
+          -allowed-resource-subcategories-file website/allowed-subcategories.txt \
+          -enable-contents-check \
+          -ignore-file-missing-data-sources aws_alb,aws_alb_listener,aws_alb_target_group \
+          -ignore-file-missing-resources aws_alb,aws_alb_listener,aws_alb_listener_certificate,aws_alb_listener_rule,aws_alb_target_group,aws_alb_target_group_attachment \
+          -provider-source registry.terraform.io/hashicorp/aws \
+          -providers-schema-json terraform-providers-schema/schema.json \
+          -require-resource-subcategory
